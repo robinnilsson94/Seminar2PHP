@@ -1,12 +1,4 @@
 <?php
-function setComment($link, $username, $table){
-    if (isset($_POST['reviewSubmit']))
-    {
-        $review = $_POST['review'];
-       $sql = "INSERT INTO $table (username, review) VALUES ('$username', '$review' )";
-   $result = mysqli_query($link, $sql);
-       }
-}
 
 function getComments($link, $table){
     $sql = "SELECT * FROM $table";
@@ -22,7 +14,7 @@ function getComments($link, $table){
     }
 }
 
-function userGetComments($link, $username, $table){
+function userGetComments($link, $username, $table, $url){
     $sql = "SELECT * FROM $table";
     $result = $link->query($sql);
     while ($row = $result->fetch_assoc()){
@@ -42,20 +34,9 @@ function userGetComments($link, $username, $table){
         echo $row['username']."<br>";  
         echo "</p>";
         echo $row['review']."<br>";
-    echo "<form method = 'POST' action = '".deleteReview($link, $table)."'> <input type= 'hidden' name = 'id' value='".$row['id']."'> <button name = 'delete'>Delete </button> </form>";
+    echo "<form method = 'POST' action = 'deleteReview.php'> <input type= 'hidden' name = 'id' value='".$row['id']."'> <input type= 'hidden' name = 'next' value='$url'> <input type= 'hidden' name = 'table' value=$table> <button name = 'delete'>Delete </button> </form>";
   echo "</div>";
     }
        
     }
-}
-
-
-function deleteReview($link, $table){
-    if (isset($_POST['delete']))
-    {
-        $id= $_POST['id'];
-       $sql = "DELETE FROM $table WHERE id='$id'";
-    $result = mysqli_query($link, $sql);
-    header("Refresh:0");
-       }
 }

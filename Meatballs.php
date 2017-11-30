@@ -3,7 +3,8 @@ ob_start();
 session_start();
 require_once 'config2.php';
 include 'insert.inc.php';
- $table = "reviewTable2";
+$table = "reviewTable2";
+$url = "location: Meatballs.php";
  if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
   $_SESSION['loggedin'] = false;
 }
@@ -79,9 +80,9 @@ else {
   }
  else {
     echo
-         "<form  method = 'POST' action = '".setComment($link, $username, $table)."'>
-        <p> Write your review here: </p>  <textarea rows = '10' cols = '30' name = 'review'></textarea><br/>
-       <button type = 'submit' name = 'reviewSubmit'> Post </button>
+         "<form  method = 'POST' action = 'setComment.php'>
+        <p> Write your review here: </p>  <textarea rows = '10' cols = '30' name = 'review'></textarea><br/> <input type= 'hidden' name = 'table' value='reviewTable2'> 
+       <input type= 'hidden' name = 'username' value='$username'>  <input type='hidden' name='next' value='$url'> <button type = 'submit' name = 'reviewSubmit'> Post </button>
         </form>";
   }
   
@@ -92,7 +93,7 @@ else {
   echo getComments($link, $table);           
   }
  else {
-     echo userGetComments($link, $username, $table);    
+     echo userGetComments($link, $username, $table, $url);    
  }
  mysqli_close($link);
 ?>
